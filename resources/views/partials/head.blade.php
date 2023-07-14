@@ -9,6 +9,7 @@
 {{--<link rel="stylesheet" href="{{ URL::to('vendor/bootstrap/css/bootstrap.min.css') }}">--}}
 {{--<link href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">--}}
 {{--<link rel="stylesheet" href="{{ URL::to('vendor/bootstrap/css/bootstrap.min.css') }}">--}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
 <title>
     @yield('title')
