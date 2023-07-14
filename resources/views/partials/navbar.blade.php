@@ -9,7 +9,7 @@
                 <a class="nav-link" href="{{URL::to('products')}}">Products </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Delivery</a>
+                <a class="nav-link" href="{{URL::to('deliveries')}}">Delivery</a>
             </li>
         </ul>
     </div>

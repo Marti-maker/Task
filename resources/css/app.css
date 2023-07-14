@@ -12,6 +12,25 @@ footer {
     margin-top: 23px;
     margin-left: 10px
 }
+.custom-input{
+    margin-top: 10px;
+    padding-left: 20px;
+}
+.custom-button{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.custom-div-button-order{
+    margin-top: 30px;
+    margin-left: 20px;
+    width: 350px;
+    height: 300px;
+}
+.custom-background {
+    background-image: url('http://127.0.0.1:8000/images/warehouse.jpg');
+    background-size: cover;
+    background-position: center;
+}
 
 
 

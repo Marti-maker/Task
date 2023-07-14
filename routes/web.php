@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Delivery\DeliveryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('products',ProductController::class);
+Route::resource('deliveries',DeliveryController::class);
+Route::get('deliveries/middle/create',[DeliveryController::class,'middle_create'])->name('deliveries.middle_create');
+Route::post('deliveries/middle/create/save',[DeliveryController::class,'middle_create_save'])->name('deliveries.middle_create_save');
