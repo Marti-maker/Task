@@ -3,6 +3,9 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
 }
 .custom-form {
     justify-content: center;
@@ -31,6 +34,21 @@ footer {
     background-size: cover;
     background-position: center;
 }
+.i-custom{
+    margin-left: 10px;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.h-100vh {
+    height: 100vh;
+}
+
+
+
 
 
 

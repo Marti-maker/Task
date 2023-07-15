@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Supply;
+use Illuminate\Console\View\Components\Error;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +20,7 @@ class ProductController extends Controller
      */
     public function index():View
     {
-        $products=Product::paginate(8);
+        $products=Product::with('supplies')->paginate(8);
         return view('products.index',compact('products'));
     }
 
@@ -38,10 +41,17 @@ class ProductController extends Controller
         if ($validated->fails()){
             return redirect()->back()->withErrors($validated)->withInput();
         }else{
+            try {
             $product=new Product();
             $product->name=$request->product_name;
             $product->price=$request->price;
             $product->save();
+
+            }catch (QueryException $e){
+                if ($e->getCode() == '23000') {
+                    return Redirect::back()->withErrors(['product_name' => 'The product name is already taken.']);
+                }
+            }
             return self::redirect_to_start();
 
         }
@@ -53,7 +63,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product=Product::find($id);
+        $supplies=$product->supplies()->paginate(10);
+         return view('products.show',compact('product','supplies'));
     }
 
     /**
@@ -90,6 +102,11 @@ class ProductController extends Controller
     {
         $product=Product::find($id);
         $product->delete();
+        return self::redirect_to_start();
+    }
+    public function delete_item(int $id){
+        $supplu=Supply::find($id);
+        $supplu->delete();
         return self::redirect_to_start();
     }
     public static function custom_validator($request){

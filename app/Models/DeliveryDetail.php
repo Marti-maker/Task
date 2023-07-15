@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class DeliveryDetail extends Model
 {
-        public function supplies(){
-            return $this->hasMany(Supply::class);
-        }
+   public function delivery(){
+       return $this->belongsTo(Delivery::class);
+   }
 }

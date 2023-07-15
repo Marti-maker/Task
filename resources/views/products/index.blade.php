@@ -21,9 +21,13 @@
                                     <div class="media-body order-2 order-lg-1">
                                         <h5 class="mt-0 font-weight-bold mb-2">Product name:
                                             <strong>{{$product->name}}</strong></h5>
+                                        <h5 class="mt-0 font-weight-bold mb-2">In stock {{$product->supplies->count()}}
                                         <div class="d-flex align-items-center justify-content-between mt-1">
                                             <h6 class="font-weight-bold my-2">Price: {{$product->price}} $</h6>
                                             <ul class="list-inline small">
+                                                <a href="{{route('products.show',['product'=>$product->id])}}">
+                                                    <button type="button" class="btn btn-secondary">Info</button>
+                                                </a>
                                                 <a href="{{ URL::to('products/' . $product->id.'/edit')}}">
                                                     <button type="button" class="btn btn-secondary">Edit</button>
                                                 </a>

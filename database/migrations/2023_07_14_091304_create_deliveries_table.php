@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('status')->default('pending');
+            $table->date('expected_date');
+            $table->string('warehouse');
+            $table->string('status')->default('Pending');
         });
     }
 
