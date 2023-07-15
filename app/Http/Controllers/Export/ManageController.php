@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Export;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -18,10 +19,7 @@ class ManageController extends Controller
 
     public function export_excel()
     {
-        $arr = self::export_help();
-        $view=self::return_view($arr);
-        return Excel::download($view, 'invoices.xlsx');
-
+        return Excel::download(new ProductExport, 'products.xlsx');
     }
 
 
@@ -40,10 +38,4 @@ class ManageController extends Controller
         return $arr;
     }
 
-    public static function return_view($arr)
-    {
-        return view('templates.pdf',
-            ['arr' => $arr]
-        );
-    }
 }

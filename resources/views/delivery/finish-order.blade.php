@@ -50,6 +50,9 @@
         <button type="submit" class="btn btn-outline-success btn-block">Save</button>
         </div>
     </form>
+    @if($errors->has('mismatches'))
+        <span style="margin-left: 50px" class="text-danger">{{ $errors->first('mismatches') }}</span>
+    @endif
     @else
         <h2>Create item before processing</h2>
     @endif

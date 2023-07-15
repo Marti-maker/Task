@@ -32,5 +32,3 @@ Route::post('deliveries/finish/details-order/{id}',[DeliveryController::class,'f
 Route::get('/save/pdf',[ManageController::class,'export_pdf'])->name('export.pdf');
 Route::get('/save/excel',[ManageController::class,'export_excel'])->name('export.excel');
 
-//proba
-Route::get('/proba',[ManageController::class,'proba']);

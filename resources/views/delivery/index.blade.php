@@ -24,9 +24,9 @@
                                         </div>
                                         <div class="col-md-4 col-lg-3">
                                             <p class="mb-0"><strong>{{$delivery->status}}</strong></p>
-                                            <a href="{{URL::to('deliveries/'.$delivery->id.'/edit')}}"><i
-                                                    class="bi bi-pen i-custom"></i></a>
                                             @if($delivery->status!='finished')
+                                                <a href="{{URL::to('deliveries/'.$delivery->id.'/edit')}}"><i
+                                                        class="bi bi-pen i-custom"></i></a>
                                             <a href="{{route('deliveries.finish.order',['id'=>$delivery->id])}}"><i
                                                     class="bi bi-arrow-up-square i-custom"></i></a>
                                             @endif
