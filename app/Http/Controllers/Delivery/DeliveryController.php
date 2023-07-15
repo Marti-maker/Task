@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Delivery;
 use App\Http\Controllers\Controller;
 use App\Models\Delivery;
 use App\Models\DeliveryDetail;
+use App\Models\PendingDelivery;
 use App\Models\Product;
 use App\Models\Supply;
 use Illuminate\Database\QueryException;
@@ -13,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
-use stdClass;
 
 class DeliveryController extends Controller
 {
@@ -91,11 +91,13 @@ class DeliveryController extends Controller
             }
             foreach ($data as $key => $value) {
                 $product = Product::where('name', $key)->first();
-                $details = new DeliveryDetail();
-                $details->delivery_id = $id;
-                $details->product_id = $product->id;
-                $details->quantity = $value;
-                $details->save();
+                for ($i = 0; $i < $value; $i++) {
+                    $details = new DeliveryDetail();
+                    $details->delivery_id = $id;
+                    $details->product_id = $product->id;
+                    $details->quantity = $value;
+                    $details->save();
+                }
             }
             return redirect()->to(route('deliveries.details', ['id' => $id]));
         }
@@ -116,6 +118,7 @@ class DeliveryController extends Controller
             }
         }
         $items = [];
+
         foreach ($array as $key => $value) {
             $sum = 0;
             foreach ($value as $val) {
@@ -137,12 +140,10 @@ class DeliveryController extends Controller
             } else {
                 if (is_array($value)) {
                     foreach ($value as $val) {
+                        $key = str_replace('_', ' ', $key);
                         $product = Product::where('name', $key)->first();
                         try {
-                            $supply = new Supply();
-                            $supply->IMEI = $val;
-                            $supply->product_id = $product->id;
-                            $supply->save();
+                            self::create_helper($request, $val, $product);
                         } catch (QueryException $e) {
                             if ($e->getCode() == '23000') {
                                 return Redirect::back()->withErrors(['imei' => "The IMEI $val is already taken."]);
@@ -152,10 +153,7 @@ class DeliveryController extends Controller
                 } else {
                     $product = Product::where('name', $key)->first();
                     try {
-                        $supply = new Supply();
-                        $supply->IMEI = $value;
-                        $supply->product_id = $product->id;
-                        $supply->save();
+                        self::create_helper($request, $value, $product);
                     } catch (QueryException $e) {
                         if ($e->getCode() == '23000') {
                             return Redirect::back()->withErrors(['imei' => 'The IMEI code is already taken.']);
@@ -189,6 +187,22 @@ class DeliveryController extends Controller
         } else {
             $delivery->expected_date = $request->input('expected_date');
             $delivery->warehouse = $request->input('warehouse');
+            if ($delivery->status == 'Pending' || $request->input('finished')) {
+                $pendings = $delivery->pendings;
+                foreach ($pendings as $pend) {
+                    try {
+                        $supply = new Supply();
+                        $supply->product_id = $pend->product_id;
+                        $supply->IMEI = $pend->IMEI;
+                        $supply->save();
+                        $pend->delete();
+                    } catch (QueryException $e) {
+                        if ($e->getCode() == '23000') {
+                            return Redirect::back()->withErrors(['imei' => "The IMEI $pend->IMEI is already taken ,you need to put new IMEI or contact admin."]);
+                        }
+                    }
+                }
+            }
             $delivery->status = $request->input('status');
             $delivery->save();
             return self::redirect_start_deliveries();
@@ -215,5 +229,21 @@ class DeliveryController extends Controller
     public static function redirect_start_deliveries(): RedirectResponse
     {
         return Redirect::to('/deliveries');
+    }
+
+    public static function create_helper($request, $val, $product)
+    {
+        if ($request->status == 'finished') {
+            $supply = new Supply();
+            $supply->IMEI = $val;
+            $supply->product_id = $product->id;
+            $supply->save();
+        } else {
+            $supply = new PendingDelivery();
+            $supply->IMEI = $val;
+            $supply->product_id = $product->id;
+            $supply->delivery_id = $request->delivery_id;
+            $supply->save();
+        }
     }
 }

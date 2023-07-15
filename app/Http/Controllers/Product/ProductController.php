@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Supply;
-use Illuminate\Console\View\Components\Error;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -15,39 +14,33 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index():View
+
+    public function index(): View
     {
-        $products=Product::with('supplies')->paginate(8);
-        return view('products.index',compact('products'));
+        $products = Product::with('supplies')->paginate(8);
+        return view('products.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('products.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request):RedirectResponse
-    {
-       $validated=self::custom_validator($request);
-        if ($validated->fails()){
-            return redirect()->back()->withErrors($validated)->withInput();
-        }else{
-            try {
-            $product=new Product();
-            $product->name=$request->product_name;
-            $product->price=$request->price;
-            $product->save();
 
-            }catch (QueryException $e){
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = self::custom_validator($request);
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated)->withInput();
+        } else {
+            try {
+                $product = new Product();
+                $product->name = $request->product_name;
+                $product->price = $request->price;
+                $product->save();
+
+            } catch (QueryException $e) {
                 if ($e->getCode() == '23000') {
                     return Redirect::back()->withErrors(['product_name' => 'The product name is already taken.']);
                 }
@@ -58,65 +51,62 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
-        $product=Product::find($id);
-        $supplies=$product->supplies()->paginate(10);
-         return view('products.show',compact('product','supplies'));
+        $product = Product::find($id);
+        $supplies = $product->supplies()->paginate(10);
+        return view('products.show', compact('product', 'supplies'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id):View
+
+    public function edit(string $id): View
     {
-        $product=Product::find($id);
-        return view('products.edit',['product'=>$product]);
+        $product = Product::find($id);
+        return view('products.edit', ['product' => $product]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id):RedirectResponse
+    public function update(Request $request, string $id): RedirectResponse
     {
 
-        $product=Product::find($id);
-        $validated=self::custom_validator($request);
-        if ($validated->fails()){
+        $product = Product::find($id);
+        $validated = self::custom_validator($request);
+        if ($validated->fails()) {
             return redirect()->back()->withErrors($validated)->withInput();
-        }else{
-            $product->name=$request->product_name;
-            $product->price=$request->price;
+        } else {
+            $product->name = $request->product_name;
+            $product->price = $request->price;
             $product->save();
             return self::redirect_to_start();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id):RedirectResponse
+
+    public function destroy(string $id): RedirectResponse
     {
-        $product=Product::find($id);
+        $product = Product::find($id);
         $product->delete();
         return self::redirect_to_start();
     }
-    public function delete_item(int $id){
-        $supplu=Supply::find($id);
+
+    public function delete_item(int $id)
+    {
+        $supplu = Supply::find($id);
         $supplu->delete();
         return self::redirect_to_start();
     }
-    public static function custom_validator($request){
-       $validator= Validator::make($request->all(),[
-            'product_name'=>'required|string',
-            'price' =>'required'
+
+    public static function custom_validator($request)
+    {
+        $validator = Validator::make($request->all(), [
+            'product_name' => 'required|string',
+            'price' => 'required'
         ]);
-       return $validator;
+        return $validator;
     }
-    public static function redirect_to_start():RedirectResponse{
+
+    public static function redirect_to_start(): RedirectResponse
+    {
         return Redirect::to('products');
     }
 }

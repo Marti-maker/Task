@@ -49,6 +49,9 @@
                             <label for="dewey">Finished</label>
                         </div>
 
+                    @if($errors->has('imei'))
+                        <span class="text-danger">{{ $errors->first('imei') }}</span>
+                    @endif
                     </fieldset>
                 @endif
             </tr>
