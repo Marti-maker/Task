@@ -5,6 +5,10 @@
             <a style="margin-right: 10px" href="{{URL::to('products/create')}}">
                 <button type="button" class="btn btn-secondary">Create</button>
             </a>
+            @if($products->count()>0)
+                <a href="{{route('export.pdf')}}" style="margin-left: 10px"><button  class="btn btn-secondary">PDF</button></a>
+                <a href="{{route('export.excel')}}" style="margin-left: 10px"><button  class="btn btn-secondary">Excel</button></a>
+            @endif
         </div>
         <div class="row text-center text-white mb-5">
             <div class="col-lg-7 mx-auto">

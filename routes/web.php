@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Delivery\DeliveryController;
+use App\Http\Controllers\Export\ManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,8 @@ Route::get('deliveries/finish-order/{id}',[DeliveryController::class,'finish_ord
 Route::post('deliveries/finish-order/save/{id}',[DeliveryController::class,'finish_order_save'])->name('deliveries.finish.order.save');
 Route::get('deliveries/details/{id}',[DeliveryController::class,'show_details'])->name('deliveries.details');
 Route::post('deliveries/finish/details-order/{id}',[DeliveryController::class,'finish_details'])->name('finish.details');
+Route::get('/save/pdf',[ManageController::class,'export_pdf'])->name('export.pdf');
+Route::get('/save/excel',[ManageController::class,'export_excel'])->name('export.excel');
+
+//proba
+Route::get('/proba',[ManageController::class,'proba']);
