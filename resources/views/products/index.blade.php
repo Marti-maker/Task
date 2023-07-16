@@ -6,8 +6,12 @@
                 <button type="button" class="btn btn-secondary">Create</button>
             </a>
             @if($products->count()>0)
-                <a href="{{route('export.pdf')}}" style="margin-left: 10px"><button  class="btn btn-secondary">PDF</button></a>
-                <a href="{{route('export.excel')}}" style="margin-left: 10px"><button  class="btn btn-secondary">Excel</button></a>
+                <a href="{{route('export.pdf')}}" style="margin-left: 10px">
+                    <button class="btn btn-secondary">PDF</button>
+                </a>
+                <a href="{{route('export.excel')}}" style="margin-left: 10px">
+                    <button class="btn btn-secondary">Excel</button>
+                </a>
             @endif
         </div>
         <div class="row text-center text-white mb-5">
@@ -26,23 +30,24 @@
                                         <h5 class="mt-0 font-weight-bold mb-2">Product name:
                                             <strong>{{$product->name}}</strong></h5>
                                         <h5 class="mt-0 font-weight-bold mb-2">In stock {{$product->supplies->count()}}
-                                        <div class="d-flex align-items-center justify-content-between mt-1">
-                                            <h6 class="font-weight-bold my-2">Price: {{$product->price}} $</h6>
-                                            <ul class="list-inline small">
-                                                <a href="{{route('products.show',['product'=>$product->id])}}">
-                                                    <button type="button" class="btn btn-secondary">Info</button>
-                                                </a>
-                                                <a href="{{ URL::to('products/' . $product->id.'/edit')}}">
-                                                    <button type="button" class="btn btn-secondary">Edit</button>
-                                                </a>
-                                                <form style="margin-top: 10px"
-                                                      action="{{route('products.destroy',$product->id)}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-secondary">Delete</button>
-                                                </form>
-                                            </ul>
-                                        </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                                <h6 class="font-weight-bold my-2">Price: {{$product->price}} $</h6>
+                                                <ul class="list-inline small">
+                                                    <a href="{{route('products.show',['product'=>$product->id])}}">
+                                                        <button type="button" class="btn btn-secondary">Info</button>
+                                                    </a>
+                                                    <a href="{{ URL::to('products/' . $product->id.'/edit')}}">
+                                                        <button type="button" class="btn btn-secondary">Edit</button>
+                                                    </a>
+                                                    <form style="margin-top: 10px"
+                                                          action="{{route('products.destroy',$product->id)}}"
+                                                          method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-secondary">Delete</button>
+                                                    </form>
+                                                </ul>
+                                            </div>
                                     </div>
                                 </div>
                             </li>
@@ -58,5 +63,5 @@
                     @endif
                 </div>
             </div>
-            {{$products->links()}}
+    {{$products->links()}}
 @endsection

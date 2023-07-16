@@ -40,9 +40,13 @@
                                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                                             <h6 class="text-black mb-0">{{ $key }}</h6>
                                                             <ul>
-                                                                <li><input type="text" name="{{ $key }}[]" class="custom-input" placeholder="Type IMEI" pattern="^[A-Z0-9]{2}-[a-zA-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]$" required>
+                                                                <li><input type="text" name="{{ $key }}[]"
+                                                                           class="custom-input" placeholder="Type IMEI"
+                                                                           pattern="^[A-Z0-9]{2}-[a-zA-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]$"
+                                                                           required>
                                                                     @if($errors->has('imei'))
-                                                                        <span class="text-danger">{{ $errors->first('imei') }}</span>
+                                                                        <span
+                                                                            class="text-danger">{{ $errors->first('imei') }}</span>
                                                                     @endif
                                                                 </li>
                                                             </ul>
@@ -51,9 +55,14 @@
                                                             <div class="col-md-6 col-lg-6 col-xl-6">
                                                                 <h6 class="text-black mb-0">{{ $key }}</h6>
                                                                 <ul>
-                                                                    <li><input type="text" name="{{ $key }}[]" class="custom-input" placeholder="Type IMEI" pattern="^[A-Z0-9]{2}-[a-zA-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]$" required>
+                                                                    <li><input type="text" name="{{ $key }}[]"
+                                                                               class="custom-input"
+                                                                               placeholder="Type IMEI"
+                                                                               pattern="^[A-Z0-9]{2}-[a-zA-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]$"
+                                                                               required>
                                                                         @if($errors->has('imei'))
-                                                                            <span class="text-danger">{{ $errors->first('imei') }}</span>
+                                                                            <span
+                                                                                class="text-danger">{{ $errors->first('imei') }}</span>
                                                                         @endif
 
                                                                     </li>

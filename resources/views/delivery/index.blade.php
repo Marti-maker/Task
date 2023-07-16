@@ -27,8 +27,8 @@
                                             @if($delivery->status!='finished')
                                                 <a href="{{URL::to('deliveries/'.$delivery->id.'/edit')}}"><i
                                                         class="bi bi-pen i-custom"></i></a>
-                                            <a href="{{route('deliveries.finish.order',['id'=>$delivery->id])}}"><i
-                                                    class="bi bi-arrow-up-square i-custom"></i></a>
+                                                <a href="{{route('deliveries.finish.order',['id'=>$delivery->id])}}"><i
+                                                        class="bi bi-arrow-up-square i-custom"></i></a>
                                             @endif
                                             <form style="margin-top: 10px"
                                                   action="{{route('deliveries.destroy',['delivery'=>$delivery->id])}}"

@@ -56,17 +56,17 @@
 
 <main>
     <table>
-            @foreach($arr as $key => $value)
+        @foreach($arr as $key => $value)
             <tr>
                 <th>Product name: {{$key}}</th>
                 <th>In stock {{count($value)}}</th>
-                </tr>
-                @foreach($value as $val)
+            </tr>
+            @foreach($value as $val)
                 <tr>
                     <td><strong>IMEI:</strong> {{$val}}</td>
                 </tr>
-                @endforeach
             @endforeach
+        @endforeach
     </table>
 </main>
 </body>

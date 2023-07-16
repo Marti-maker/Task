@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <form class="custom-form" method="POST"  action="{{ route('products.update', ['product' => $product->id])}}">
+        @csrf
         @method('PUT')
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="form-group">

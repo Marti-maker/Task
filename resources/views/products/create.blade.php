@@ -11,13 +11,13 @@
         </div>
         <div class="form-group">
             <label for="price">Price</label>
-            <input class="form-control" name="price" type="number" min="0.00" max="10000.00" step="0.01" />
+            <input class="form-control" name="price" type="number" min="0.00" max="10000.00" step="0.01"/>
             @if($errors->has('price'))
                 <span class="text-danger">{{ $errors->first('price') }}</span>
             @endif
         </div>
         <div class="custom-div-form-create">
-        <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 @endsection
