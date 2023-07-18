@@ -87,17 +87,24 @@ class DeliveryController extends Controller
              there was a problem with one of them on the left side you can see all products available"]);
         } else {
             if (DeliveryDetail::where('delivery_id', $id)) {
-                DeliveryDetail::where('delivery_id', $id)->delete();
+                $details=DeliveryDetail::where('delivery_id', $id)->get();
+                $pendings=PendingDelivery::where('delivery_id',$id)->get();
+                if ($pendings){
+                    foreach ($pendings as $pend){
+                        $pend->delete();
+                    }
+                }
+                foreach ($details as $detail_for_delete){
+                    $detail_for_delete->delete();
+                }
             }
             foreach ($data as $key => $value) {
                 $product = Product::where('name', $key)->first();
-                for ($i = 0; $i < $value; $i++) {
                     $details = new DeliveryDetail();
                     $details->delivery_id = $id;
                     $details->product_id = $product->id;
                     $details->quantity = $value;
                     $details->save();
-                }
             }
             return redirect()->to(route('deliveries.details', ['id' => $id]));
         }
